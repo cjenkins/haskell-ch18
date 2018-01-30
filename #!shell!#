@@ -1,0 +1,2083 @@
+Microsoft Windows [Version 10.0.15063]
+(c) 2017 Microsoft Corporation. All rights reserved.
+
+c:\Projects\haskell-ch18>stack repl
+stack repl
+
+Warning: No local targets specified, so ghci will not use any options from your package.yaml /
+         *.cabal files.
+         
+         Potential ways to resolve this:
+         * If you want to use the package.yaml / *.cabal package in the current directory, use
+           stack init to create a new stack.yaml.
+         * Add to the 'packages' field of C:\sr\global-project\stack.yaml
+         
+Configuring GHCi with the following packages: 
+GHCi, version 8.0.2: http://www.haskell.org/ghc/  :? for help
+Loaded GHCi configuration from C:\Users\Jenkins\AppData\Local\Temp\ghci5988\ghci-script
+Prelude> :l bind.hs 
+[1 of 1] Compiling Bind             ( bind.hs, interpreted )
+Ok, modules loaded: Bind.
+*Bind> :t fmap
+fmap :: Functor f => (a -> b) -> f a -> f b
+*Bind> :t join
+
+<interactive>:1:1: error: Variable not in scope: join
+*Bind> :r
+[1 of 1] Compiling Bind             ( bind.hs, interpreted )
+Ok, modules loaded: Bind.
+*Bind> :t join
+join :: Monad m => m (m a) -> m a
+*Bind> :r
+[1 of 1] Compiling Bind             ( bind.hs, interpreted )
+Ok, modules loaded: Bind.
+*Bind> :l EitherMonad.hs 
+[1 of 1] Compiling EitherMonad      ( EitherMonad.hs, interpreted )
+Ok, modules loaded: EitherMonad.
+*EitherMonad> :t fmap
+fmap :: Functor f => (a -> b) -> f a -> f b
+*EitherMonad> :t pure
+pure :: Applicative f => a -> f a
+*EitherMonad> :t (<*>)
+(<*>) :: Applicative f => f (a -> b) -> f a -> f b
+*EitherMonad> :r
+[1 of 1] Compiling EitherMonad      ( EitherMonad.hs, interpreted )
+
+EitherMonad.hs:15:32: error:
+     Couldn't match expected type a1 -> b
+                  with actual type Sum a (a1 -> b)
+     The function f is applied to one argument,
+      but its type Sum a (a1 -> b) has none
+      In the first argument of Second, namely (f b)
+      In the expression: Second (f b)
+     Relevant bindings include
+        b :: a1 (bound at EitherMonad.hs:15:19)
+        f :: Sum a (a1 -> b) (bound at EitherMonad.hs:15:9)
+        (<*>) :: Sum a (a1 -> b) -> Sum a a1 -> Sum a b
+          (bound at EitherMonad.hs:14:3)
+Failed, modules loaded: none.
+Prelude> :r
+[1 of 1] Compiling EitherMonad      ( EitherMonad.hs, interpreted )
+
+EitherMonad.hs:15:37: error:
+     Couldn't match expected type a0 -> b0
+                  with actual type Sum a (a1 -> b)
+     In the first argument of fmap, namely f
+      In the first argument of Second, namely (fmap f b)
+      In the expression: Second (fmap f b)
+     Relevant bindings include
+        b :: a1 (bound at EitherMonad.hs:15:19)
+        f :: Sum a (a1 -> b) (bound at EitherMonad.hs:15:9)
+        (<*>) :: Sum a (a1 -> b) -> Sum a a1 -> Sum a b
+          (bound at EitherMonad.hs:14:3)
+Failed, modules loaded: none.
+Prelude> :r
+[1 of 1] Compiling EitherMonad      ( EitherMonad.hs, interpreted )
+
+EitherMonad.hs:15:29: error:
+     Couldn't match expected type a0 -> b
+                  with actual type Sum a (a1 -> b)
+     In the first argument of fmap, namely f
+      In the expression: fmap f b
+      In an equation for <*>: (<*>) f (Second b) = fmap f b
+     Relevant bindings include
+        b :: a1 (bound at EitherMonad.hs:15:19)
+        f :: Sum a (a1 -> b) (bound at EitherMonad.hs:15:9)
+        (<*>) :: Sum a (a1 -> b) -> Sum a a1 -> Sum a b
+          (bound at EitherMonad.hs:14:3)
+Failed, modules loaded: none.
+Prelude> :t (<*>)
+(<*>) :: Applicative f => f (a -> b) -> f a -> f b
+Prelude> :r
+[1 of 1] Compiling EitherMonad      ( EitherMonad.hs, interpreted )
+
+EitherMonad.hs:14:42: error:
+     Couldn't match expected type a1 with actual type a
+      a is a rigid type variable bound by
+        the instance declaration at EitherMonad.hs:12:10
+      a1 is a rigid type variable bound by
+        the type signature for:
+          (<*>) :: forall a1 b. Sum a (a1 -> b) -> Sum a a1 -> Sum a b
+        at EitherMonad.hs:14:3
+     In the first argument of f, namely a
+      In the first argument of Second, namely (f a)
+      In the expression: Second (f a)
+     Relevant bindings include
+        a :: a (bound at EitherMonad.hs:14:27)
+        f :: a1 -> b (bound at EitherMonad.hs:14:17)
+        (<*>) :: Sum a (a1 -> b) -> Sum a a1 -> Sum a b
+          (bound at EitherMonad.hs:14:3)
+
+EitherMonad.hs:16:10: error:
+     No instance for (Monoid a)
+        arising from the superclasses of an instance declaration
+      Possible fix:
+        add (Monoid a) to the context of the instance declaration
+     In the instance declaration for Monad (Sum a)
+
+EitherMonad.hs:17:12: error:
+     No instance for (Monoid a) arising from a use of pure
+      Possible fix:
+        add (Monoid a) to the context of
+          the type signature for:
+            return :: a1 -> Sum a a1
+          or the instance declaration
+     In the expression: pure
+      In an equation for return: return = pure
+      In the instance declaration for Monad (Sum a)
+Failed, modules loaded: none.
+Prelude> :r
+[1 of 1] Compiling EitherMonad      ( EitherMonad.hs, interpreted )
+
+EitherMonad.hs:14:42: error:
+     Couldn't match expected type a1 with actual type a
+      a is a rigid type variable bound by
+        the instance declaration at EitherMonad.hs:12:10
+      a1 is a rigid type variable bound by
+        the type signature for:
+          (<*>) :: forall a1 b. Sum a (a1 -> b) -> Sum a a1 -> Sum a b
+        at EitherMonad.hs:14:3
+     In the first argument of f, namely a
+      In the first argument of Second, namely (f a)
+      In the expression: Second (f a)
+     Relevant bindings include
+        a :: a (bound at EitherMonad.hs:14:27)
+        f :: a1 -> b (bound at EitherMonad.hs:14:17)
+        (<*>) :: Sum a (a1 -> b) -> Sum a a1 -> Sum a b
+          (bound at EitherMonad.hs:14:3)
+Failed, modules loaded: none.
+Prelude> :r
+[1 of 1] Compiling EitherMonad      ( EitherMonad.hs, interpreted )
+Ok, modules loaded: EitherMonad.
+*EitherMonad> :t <*>
+
+<interactive>:1:1: error: parse error on input <*>
+*EitherMonad> :t (<*>)
+(<*>) :: Applicative f => f (a -> b) -> f a -> f b
+*EitherMonad> Left "Hi" <*> Left <"There">
+
+<interactive>:20:29: error:
+    parse error (possibly incorrect indentation or mismatched brackets)
+*EitherMonad> Left "Hi" <*> Left "There"
+Left "Hi"
+*EitherMonad> Left "Hi" <*> Right "There"
+Left "Hi"
+*EitherMonad> Right "Hi" <*> Right "There"
+
+<interactive>:23:1: error:
+     Couldn't match type [Char] with [Char] -> b
+      Expected type: Either a ([Char] -> b)
+        Actual type: Either a [Char]
+     In the first argument of (<*>), namely Right "Hi"
+      In the expression: Right "Hi" <*> Right "There"
+      In an equation for it: it = Right "Hi" <*> Right "There"
+     Relevant bindings include
+        it :: Either a b (bound at <interactive>:23:1)
+*EitherMonad> :r
+[1 of 1] Compiling EitherMonad      ( EitherMonad.hs, interpreted )
+Ok, modules loaded: EitherMonad.
+*EitherMonad> :r
+[1 of 1] Compiling EitherMonad      ( EitherMonad.hs, interpreted )
+Ok, modules loaded: EitherMonad.
+*EitherMonad> Right (++ "Hi") <*> Right "There"
+Right "ThereHi"
+*EitherMonad> :t >>=
+
+<interactive>:1:1: error: parse error on input >>=
+*EitherMonad> :t (>>=)
+(>>=) :: Monad m => m a -> (a -> m b) -> m b
+*EitherMonad> :r
+[1 of 1] Compiling EitherMonad      ( EitherMonad.hs, interpreted )
+Ok, modules loaded: EitherMonad.
+*EitherMonad> :q
+Leaving GHCi.
+
+c:\Projects\haskell-ch18>stack new chapter-exercises
+stack new chapter-exercises
+Downloading template "new-template" to create project "chapter-exercises" in chapter-exercises\ ...
+
+The following parameters were needed by the template but not provided: author-email, author-name, category, copyright, github-username
+You can provide them in C:\sr\config.yaml, like this:
+templates:
+  params:
+    author-email: value
+    author-name: value
+    category: value
+    copyright: value
+    github-username: value
+Or you can pass each one as parameters like this:
+stack new chapter-exercises new-template -p "author-email:value" -p "author-name:value" -p "category:value" -p "copyright:value" -p "github-username:value"
+
+Looking for .cabal or package.yaml files to use to init the project.
+Using cabal packages:
+- chapter-exercises\
+
+Selecting the best among 12 snapshots...
+
+Downloading lts-10.4 build plan ...
+Downloaded lts-10.4 build plan.
+Didn't see Hoed-0.4.1@sha256:64f0c1b7f0a88df782a0607d9c63d6a7e62240e0f88ebca5768be52d524e9831,4195 in your package indices.
+Updating and trying again.
+Updating package index Hackage (mirrored at https://s3.amazonaws.com/hackage.fpcomplete.com/) ...
+Selected mirror https://s3.amazonaws.com/hackage.fpcomplete.com/
+Downloading timestamp
+Downloading snapshot
+Updating index
+Updated package index downloaded
+Update complete
+Populating index cache ...
+Populated index cache.
+* Matches lts-10.4
+
+Selected resolver: lts-10.4
+Initialising configuration using resolver: lts-10.4
+Total number of user packages considered: 1
+Writing configuration to file: chapter-exercises\stack.yaml
+All done.
+
+c:\Projects\haskell-ch18>cd chapter-exercises/
+cd chapter-exercises/
+
+c:\Projects\haskell-ch18\chapter-exercises>ls
+ls
+'ls' is not recognized as an internal or external command,
+operable program or batch file.
+
+c:\Projects\haskell-ch18\chapter-exercises>dir/w
+dir/w
+ Volume in drive C has no label.
+ Volume Serial Number is B3A3-A8C4
+
+ Directory of c:\Projects\haskell-ch18\chapter-exercises
+
+[.]                       [..]                      .gitignore
+[app]                     ChangeLog.md              chapter-exercises.cabal
+LICENSE                   package.yaml              README.md
+Setup.hs                  [src]                     stack.yaml
+[test]                    
+               8 File(s)          6,721 bytes
+               5 Dir(s)  239,503,155,200 bytes free
+
+c:\Projects\haskell-ch18\chapter-exercises>stack build
+stack build
+
+Warning: WARNING: C:\Projects\haskell-ch18\chapter-exercises\chapter-exercises.cabal was modified
+         manually. Ignoring package.yaml in favor of cabal file. If you want to use package.yaml
+         instead of the cabal file, then please delete the cabal file.
+base-orphans-0.6: using precompiled package
+Cabal-2.0.1.1: using precompiled package
+random-1.1: using precompiled package
+semigroups-0.18.3: using precompiled package
+primitive-0.6.3.0: download
+stm-2.4.4.1: using precompiled package
+text-1.2.2.2: using precompiled package
+cabal-doctest-1.0.5: download
+primitive-0.6.3.0: configure
+StateVar-1.1.0.4: using precompiled package
+hashable-1.2.6.1: using precompiled package
+th-abstraction-0.2.6.0: using precompiled package
+transformers-compat-0.5.1.4: using precompiled package
+unordered-containers-0.2.8.0: using precompiled package
+contravariant-1.4.1: download
+primitive-0.6.3.0: build
+cabal-doctest-1.0.5: configure
+cabal-doctest-1.0.5: build
+tagged-0.8.5: configure
+primitive-0.6.3.0: copy/register
+cabal-doctest-1.0.5: copy/register
+tagged-0.8.5: build
+contravariant-1.4.1: configure
+tagged-0.8.5: copy/register
+contravariant-1.4.1: build
+tf-random-0.5: configure
+contravariant-1.4.1: copy/register
+tf-random-0.5: build
+distributive-0.5.3: configure
+tf-random-0.5: copy/register
+distributive-0.5.3: build
+QuickCheck-2.10.1: configure
+distributive-0.5.3: copy/register
+QuickCheck-2.10.1: build
+comonad-5.0.2: configure
+comonad-5.0.2: build
+QuickCheck-2.10.1: copy/register
+comonad-5.0.2: copy/register
+bifunctors-5.5: configure
+bifunctors-5.5: build
+bifunctors-5.5: copy/register
+semigroupoids-5.2.1: configure
+semigroupoids-5.2.1: build
+semigroupoids-5.2.1: copy/register
+checkers-0.4.9.5: configure
+checkers-0.4.9.5: build
+checkers-0.4.9.5: copy/register
+Building all executables for `chapter-exercises' once. After a successful build of all of them, only specified executables will be rebuilt.
+chapter-exercises-0.1.0.0: configure (lib + exe)
+Configuring chapter-exercises-0.1.0.0...
+chapter-exercises-0.1.0.0: build (lib + exe)
+Preprocessing library for chapter-exercises-0.1.0.0..
+Building library for chapter-exercises-0.1.0.0..
+[1 of 2] Compiling Lib              ( src\Lib.hs, .stack-work\dist\5c8418a7\build\Lib.o )
+[2 of 2] Compiling Paths_chapter_exercises ( .stack-work\dist\5c8418a7\build\autogen\Paths_chapter_exercises.hs, .stack-work\dist\5c8418a7\build\Paths_chapter_exercises.o )
+Preprocessing executable 'chapter-exercises-exe' for chapter-exercises-0.1.0.0..
+Building executable 'chapter-exercises-exe' for chapter-exercises-0.1.0.0..
+[1 of 2] Compiling Main             ( app\Main.hs, .stack-work\dist\5c8418a7\build\chapter-exercises-exe\chapter-exercises-exe-tmp\Main.o )
+[2 of 2] Compiling Paths_chapter_exercises ( .stack-work\dist\5c8418a7\build\chapter-exercises-exe\autogen\Paths_chapter_exercises.hs, .stack-work\dist\5c8418a7\build\chapter-exercises-exe\chapter-exercises-exe-tmp\Paths_chapter_exercises.o )
+Linking .stack-work\dist\5c8418a7\build\chapter-exercises-exe\chapter-exercises-exe.exe ...
+chapter-exercises-0.1.0.0: copy/register
+Installing library in C:\Projects\haskell-ch18\chapter-exercises\.stack-work\install\dec5189f\lib\x86_64-windows-ghc-8.2.2\chapter-exercises-0.1.0.0-KF9jg6IMbFg55TNXU8tZCv
+Installing executable chapter-exercises-exe in C:\Projects\haskell-ch18\chapter-exercises\.stack-work\install\dec5189f\bin
+Registering library for chapter-exercises-0.1.0.0..
+Completed 23 action(s).
+
+c:\Projects\haskell-ch18\chapter-exercises>stack repl
+stack repl
+
+Warning: WARNING: C:\Projects\haskell-ch18\chapter-exercises\chapter-exercises.cabal was modified
+         manually. Ignoring package.yaml in favor of cabal file. If you want to use package.yaml
+         instead of the cabal file, then please delete the cabal file.
+chapter-exercises-0.1.0.0: configure (lib + exe)
+Configuring chapter-exercises-0.1.0.0...
+chapter-exercises-0.1.0.0: initial-build-steps (lib + exe)
+The following GHC options are incompatible with GHCi and have not been passed to it: -threaded
+Configuring GHCi with the following packages: chapter-exercises
+Using main module: 1. Package `chapter-exercises' component exe:chapter-exercises-exe with main-is file: C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs
+GHCi, version 8.2.2: http://www.haskell.org/ghc/  :? for help
+[1 of 2] Compiling Lib              ( C:\Projects\haskell-ch18\chapter-exercises\src\Lib.hs, interpreted )
+[2 of 2] Compiling Main             ( C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs, interpreted )
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:7:8: error:
+    Variable not in scope: someFunc :: IO ()
+  |
+7 | main = someFunc
+  |        ^^^^^^^^
+Failed, one module loaded.
+Loaded GHCi configuration from C:\Users\Jenkins\AppData\Local\Temp\ghci10492\ghci-script
+*Lib Lib> :i Monad
+class Applicative m => Monad (m :: * -> *) where
+  (>>=) :: m a -> (a -> m b) -> m b
+  (>>) :: m a -> m b -> m b
+  return :: a -> m a
+  fail :: String -> m a
+  {-# MINIMAL (>>=) #-}
+  	-- Defined in GHC.Base
+instance Monad (Either e) -- Defined in Data.Either
+instance Monad [] -- Defined in GHC.Base
+instance Monad Maybe -- Defined in GHC.Base
+instance Monad IO -- Defined in GHC.Base
+instance Monad ((->) r) -- Defined in GHC.Base
+instance Monoid a => Monad ((,) a) -- Defined in GHC.Base
+*Lib Lib> :i Applicative
+class Functor f => Applicative (f :: * -> *) where
+  pure :: a -> f a
+  (<*>) :: f (a -> b) -> f a -> f b
+  GHC.Base.liftA2 :: (a -> b -> c) -> f a -> f b -> f c
+  (*>) :: f a -> f b -> f b
+  (<*) :: f a -> f b -> f a
+  {-# MINIMAL pure, ((<*>) | liftA2) #-}
+  	-- Defined in GHC.Base
+instance Applicative (Either e) -- Defined in Data.Either
+instance Applicative [] -- Defined in GHC.Base
+instance Applicative Maybe -- Defined in GHC.Base
+instance Applicative IO -- Defined in GHC.Base
+instance Applicative ((->) a) -- Defined in GHC.Base
+instance Monoid a => Applicative ((,) a) -- Defined in GHC.Base
+*Lib Lib> :i Functor
+class Functor (f :: * -> *) where
+  fmap :: (a -> b) -> f a -> f b
+  (<$) :: a -> f b -> f a
+  {-# MINIMAL fmap #-}
+  	-- Defined in GHC.Base
+instance Functor (Either a) -- Defined in Data.Either
+instance Functor [] -- Defined in GHC.Base
+instance Functor Maybe -- Defined in GHC.Base
+instance Functor IO -- Defined in GHC.Base
+instance Functor ((->) r) -- Defined in GHC.Base
+instance Functor ((,) a) -- Defined in GHC.Base
+*Lib Lib> :r
+[2 of 2] Compiling Main             ( C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs, interpreted )
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:12:12: error:
+     Couldn't match expected type Nope a with actual type a
+      a is a rigid type variable bound by
+        the type signature for:
+          pure :: forall a. a -> Nope a
+        at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:12:3-6
+     In the expression: a
+      In an equation for pure: pure a = a
+      In the instance declaration for Applicative Nope
+     Relevant bindings include
+        a :: a
+          (bound at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:12:8)
+        pure :: a -> Nope a
+          (bound at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:12:3)
+   |
+12 |   pure a = a
+   |            ^
+Failed, one module loaded.
+*Lib Lib> :r
+[2 of 2] Compiling Main             ( C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs, interpreted )
+Ok, two modules loaded.
+*Main Lib> :r
+[2 of 2] Compiling Main             ( C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs, interpreted )
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:20:15: error:
+     Expecting one more argument to Nope
+      Expected a type, but Nope has kind * -> *
+     In the type signature: nope :: Nope
+      In the expression:
+        do let nope :: Nope
+               nope = undefined
+           quickBatch $ functor nope
+           quickBatch $ applicative trigger
+           quickBatch $ monad trigger
+      In an equation for main:
+          main
+            = do let nope :: Nope
+                     ....
+                 quickBatch $ functor nope
+                 quickBatch $ applicative trigger
+                 ....
+   |
+20 |   let nope :: Nope
+   |               ^^^^
+Failed, one module loaded.
+*Lib Lib> :r
+[2 of 2] Compiling Main             ( C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs, interpreted )
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:22:16: error:
+     Variable not in scope:
+        functor :: Nope (Int, String, Int) -> TestBatch
+     Perhaps you meant function (imported from Test.QuickCheck)
+   |
+22 |   quickBatch $ functor nope
+   |                ^^^^^^^
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:23:16: error:
+    Variable not in scope: applicative :: t0 -> TestBatch
+   |
+23 |   quickBatch $ applicative trigger
+   |                ^^^^^^^^^^^
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:23:28: error:
+    Variable not in scope: trigger
+   |
+23 |   quickBatch $ applicative trigger
+   |                            ^^^^^^^
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:24:16: error:
+    Variable not in scope: monad :: t1 -> TestBatch
+   |
+24 |   quickBatch $ monad trigger
+   |                ^^^^^
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:24:22: error:
+    Variable not in scope: trigger
+   |
+24 |   quickBatch $ monad trigger
+   |                      ^^^^^^^
+Failed, one module loaded.
+*Lib Lib> :r
+[2 of 2] Compiling Main             ( C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs, interpreted )
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:24:28: error:
+    Variable not in scope: trigger :: m0 (a0, b0, c0)
+   |
+24 |   quickBatch $ applicative trigger
+   |                            ^^^^^^^
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:25:22: error:
+    Variable not in scope: trigger :: m1 (a1, b1, c1)
+   |
+25 |   quickBatch $ monad trigger
+   |                      ^^^^^^^
+Failed, one module loaded.
+*Lib Lib> :r
+[2 of 2] Compiling Main             ( C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs, interpreted )
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:23:16: error:
+     No instance for (Show (Nope Int)) arising from a use of functor
+     In the second argument of ($), namely functor nope
+      In a stmt of a 'do' block: quickBatch $ functor nope
+      In the expression:
+        do let nope :: Nope (Int, String, Int)
+               nope = undefined
+           quickBatch $ functor nope
+           quickBatch $ applicative nope
+           quickBatch $ monad nope
+   |
+23 |   quickBatch $ functor nope
+   |                ^^^^^^^^^^^^
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:24:16: error:
+     No instance for (Show (Nope (String -> Int)))
+        arising from a use of applicative
+     In the second argument of ($), namely applicative nope
+      In a stmt of a 'do' block: quickBatch $ applicative nope
+      In the expression:
+        do let nope :: Nope (Int, String, Int)
+               nope = undefined
+           quickBatch $ functor nope
+           quickBatch $ applicative nope
+           quickBatch $ monad nope
+   |
+24 |   quickBatch $ applicative nope
+   |                ^^^^^^^^^^^^^^^^
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:25:16: error:
+     No instance for (Arbitrary (Nope String))
+        arising from a use of monad
+     In the second argument of ($), namely monad nope
+      In a stmt of a 'do' block: quickBatch $ monad nope
+      In the expression:
+        do let nope :: Nope (Int, String, Int)
+               nope = undefined
+           quickBatch $ functor nope
+           quickBatch $ applicative nope
+           quickBatch $ monad nope
+   |
+25 |   quickBatch $ monad nope
+   |                ^^^^^^^^^^
+Failed, one module loaded.
+*Lib Lib> :r
+[2 of 2] Compiling Main             ( C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs, interpreted )
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:22:13: error:
+    Data constructor not in scope: Nope :: t0 -> Nope a
+   |
+22 |     return (Nope a)
+   |             ^^^^
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:28:16: error:
+     No instance for (Show (Nope Int)) arising from a use of functor
+     In the second argument of ($), namely functor nope
+      In a stmt of a 'do' block: quickBatch $ functor nope
+      In the expression:
+        do let nope :: Nope (Int, String, Int)
+               nope = undefined
+           quickBatch $ functor nope
+           quickBatch $ applicative nope
+           quickBatch $ monad nope
+   |
+28 |   quickBatch $ functor nope
+   |                ^^^^^^^^^^^^
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:29:16: error:
+     No instance for (Show (Nope (String -> Int)))
+        arising from a use of applicative
+     In the second argument of ($), namely applicative nope
+      In a stmt of a 'do' block: quickBatch $ applicative nope
+      In the expression:
+        do let nope :: Nope (Int, String, Int)
+               nope = undefined
+           quickBatch $ functor nope
+           quickBatch $ applicative nope
+           quickBatch $ monad nope
+   |
+29 |   quickBatch $ applicative nope
+   |                ^^^^^^^^^^^^^^^^
+Failed, one module loaded.
+*Lib Lib> :r
+[2 of 2] Compiling Main             ( C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs, interpreted )
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:22:13: error:
+    Data constructor not in scope: Nope :: t0 -> Nope a
+   |
+22 |     return (Nope a)
+   |             ^^^^
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:28:16: error:
+     No instance for (EqProp (Nope Int))
+        arising from a use of functor
+     In the second argument of ($), namely functor nope
+      In a stmt of a 'do' block: quickBatch $ functor nope
+      In the expression:
+        do let nope :: Nope (Int, String, Int)
+               nope = undefined
+           quickBatch $ functor nope
+           quickBatch $ applicative nope
+           quickBatch $ monad nope
+   |
+28 |   quickBatch $ functor nope
+   |                ^^^^^^^^^^^^
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:29:16: error:
+     No instance for (EqProp (Nope String))
+        arising from a use of applicative
+     In the second argument of ($), namely applicative nope
+      In a stmt of a 'do' block: quickBatch $ applicative nope
+      In the expression:
+        do let nope :: Nope (Int, String, Int)
+               nope = undefined
+           quickBatch $ functor nope
+           quickBatch $ applicative nope
+           quickBatch $ monad nope
+   |
+29 |   quickBatch $ applicative nope
+   |                ^^^^^^^^^^^^^^^^
+Failed, one module loaded.
+*Lib Lib> :r
+[2 of 2] Compiling Main             ( C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs, interpreted )
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:22:13: error:
+    Data constructor not in scope: Nope :: t0 -> Nope a
+   |
+22 |     return (Nope a)
+   |             ^^^^
+Failed, one module loaded.
+*Lib Lib> :r
+[2 of 2] Compiling Main             ( C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs, interpreted )
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:21:10: error:
+     Could not deduce (Arbitrary a0) arising from a use of arbitrary
+      from the context: Arbitrary a
+        bound by the instance declaration
+        at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:19:10-42
+      The type variable a0 is ambiguous
+      These potential instances exist:
+        instance (Arbitrary a, Arbitrary b) => Arbitrary (Either a b)
+          -- Defined in Test.QuickCheck.Arbitrary
+        instance Arbitrary Ordering
+          -- Defined in Test.QuickCheck.Arbitrary
+        instance Arbitrary Integer
+          -- Defined in Test.QuickCheck.Arbitrary
+        ...plus 20 others
+        ...plus 62 instances involving out-of-scope types
+        (use -fprint-potential-instances to see them all)
+     In a stmt of a 'do' block: a <- arbitrary
+      In the expression:
+        do a <- arbitrary
+           return NopeDotJpg
+      In an equation for arbitrary:
+          arbitrary
+            = do a <- arbitrary
+                 return NopeDotJpg
+   |
+21 |     a <- arbitrary
+   |          ^^^^^^^^^
+Failed, one module loaded.
+*Lib Lib> :r
+[2 of 2] Compiling Main             ( C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs, interpreted )
+Ok, two modules loaded.
+*Main Lib> main
+
+functor:
+  identity: +++ OK, passed 500 tests.
+  compose:  +++ OK, passed 500 tests.
+
+applicative:
+  identity:     +++ OK, passed 500 tests.
+  composition:  +++ OK, passed 500 tests.
+  homomorphism: +++ OK, passed 500 tests.
+  interchange:  +++ OK, passed 500 tests.
+  functor:      +++ OK, passed 500 tests.
+
+monad laws:
+  left  identity: +++ OK, passed 500 tests.
+  right identity: +++ OK, passed 500 tests.
+  associativity:  +++ OK, passed 500 tests.
+*Main Lib> :r
+[2 of 2] Compiling Main             ( C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs, interpreted )
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:49:5: error:
+    parse error on input <-
+    Perhaps this statement should be within a 'do' block?
+   |
+49 |   a <- arbitrary
+   |     ^^
+Failed, one module loaded.
+*Lib Lib> :r
+[2 of 2] Compiling Main             ( C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs, interpreted )
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:34:11: error:
+    Ambiguous occurrence Left
+    It could refer to either Prelude.Left,
+                             imported from Prelude at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:1:8-11
+                             (and originally defined in Data.Either)
+                          or Main.Left,
+                             defined at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:29:3
+   |
+34 |   fmap f (Left a) = Left (f a)
+   |           ^^^^
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:34:21: error:
+    Ambiguous occurrence Left
+    It could refer to either Prelude.Left,
+                             imported from Prelude at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:1:8-11
+                             (and originally defined in Data.Either)
+                          or Main.Left,
+                             defined at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:29:3
+   |
+34 |   fmap f (Left a) = Left (f a)
+   |                     ^^^^
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:35:11: error:
+    Ambiguous occurrence Right
+    It could refer to either Prelude.Right,
+                             imported from Prelude at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:1:8-11
+                             (and originally defined in Data.Either)
+                          or Main.Right,
+                             defined at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:30:5
+   |
+35 |   fmap f (Right b) = Right b
+   |           ^^^^^
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:35:22: error:
+    Ambiguous occurrence Right
+    It could refer to either Prelude.Right,
+                             imported from Prelude at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:1:8-11
+                             (and originally defined in Data.Either)
+                          or Main.Right,
+                             defined at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:30:5
+   |
+35 |   fmap f (Right b) = Right b
+   |                      ^^^^^
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:38:12: error:
+    Ambiguous occurrence Left
+    It could refer to either Prelude.Left,
+                             imported from Prelude at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:1:8-11
+                             (and originally defined in Data.Either)
+                          or Main.Left,
+                             defined at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:29:3
+   |
+38 |   pure a = Left a
+   |            ^^^^
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:39:12: error:
+    Ambiguous occurrence Right
+    It could refer to either Prelude.Right,
+                             imported from Prelude at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:1:8-11
+                             (and originally defined in Data.Either)
+                          or Main.Right,
+                             defined at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:30:5
+   |
+39 |   (<*>) _ (Right b) = Right b
+   |            ^^^^^
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:39:23: error:
+    Ambiguous occurrence Right
+    It could refer to either Prelude.Right,
+                             imported from Prelude at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:1:8-11
+                             (and originally defined in Data.Either)
+                          or Main.Right,
+                             defined at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:30:5
+   |
+39 |   (<*>) _ (Right b) = Right b
+   |                       ^^^^^
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:40:10: error:
+    Ambiguous occurrence Right
+    It could refer to either Prelude.Right,
+                             imported from Prelude at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:1:8-11
+                             (and originally defined in Data.Either)
+                          or Main.Right,
+                             defined at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:30:5
+   |
+40 |   (<*>) (Right b) _ = Right b
+   |          ^^^^^
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:40:23: error:
+    Ambiguous occurrence Right
+    It could refer to either Prelude.Right,
+                             imported from Prelude at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:1:8-11
+                             (and originally defined in Data.Either)
+                          or Main.Right,
+                             defined at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:30:5
+   |
+40 |   (<*>) (Right b) _ = Right b
+   |                       ^^^^^
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:41:10: error:
+    Ambiguous occurrence Left
+    It could refer to either Prelude.Left,
+                             imported from Prelude at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:1:8-11
+                             (and originally defined in Data.Either)
+                          or Main.Left,
+                             defined at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:29:3
+   |
+41 |   (<*>) (Left fab) (Left a) = Left (fab a)
+   |          ^^^^
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:41:21: error:
+    Ambiguous occurrence Left
+    It could refer to either Prelude.Left,
+                             imported from Prelude at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:1:8-11
+                             (and originally defined in Data.Either)
+                          or Main.Left,
+                             defined at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:29:3
+   |
+41 |   (<*>) (Left fab) (Left a) = Left (fab a)
+   |                     ^^^^
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:41:31: error:
+    Ambiguous occurrence Left
+    It could refer to either Prelude.Left,
+                             imported from Prelude at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:1:8-11
+                             (and originally defined in Data.Either)
+                          or Main.Left,
+                             defined at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:29:3
+   |
+41 |   (<*>) (Left fab) (Left a) = Left (fab a)
+   |                               ^^^^
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:45:10: error:
+    Ambiguous occurrence Right
+    It could refer to either Prelude.Right,
+                             imported from Prelude at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:1:8-11
+                             (and originally defined in Data.Either)
+                          or Main.Right,
+                             defined at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:30:5
+   |
+45 |   (>>=) (Right b) _ = Right b
+   |          ^^^^^
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:45:23: error:
+    Ambiguous occurrence Right
+    It could refer to either Prelude.Right,
+                             imported from Prelude at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:1:8-11
+                             (and originally defined in Data.Either)
+                          or Main.Right,
+                             defined at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:30:5
+   |
+45 |   (>>=) (Right b) _ = Right b
+   |                       ^^^^^
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:46:10: error:
+    Ambiguous occurrence Left
+    It could refer to either Prelude.Left,
+                             imported from Prelude at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:1:8-11
+                             (and originally defined in Data.Either)
+                          or Main.Left,
+                             defined at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:29:3
+   |
+46 |   (>>=) (Left a) f = f a
+   |          ^^^^
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:52:20: error:
+    Ambiguous occurrence Left
+    It could refer to either Prelude.Left,
+                             imported from Prelude at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:1:8-11
+                             (and originally defined in Data.Either)
+                          or Main.Left,
+                             defined at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:29:3
+   |
+52 |     frequency [(1, Left a), (1, Right b)]
+   |                    ^^^^
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:52:33: error:
+    Ambiguous occurrence Right
+    It could refer to either Prelude.Right,
+                             imported from Prelude at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:1:8-11
+                             (and originally defined in Data.Either)
+                          or Main.Right,
+                             defined at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:30:5
+   |
+52 |     frequency [(1, Left a), (1, Right b)]
+   |                                 ^^^^^
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:61:7: error:
+    The type signature for myEither lacks an accompanying binding
+   |
+61 |       myEither :: MyEither (Int, String, Int) (String, Int, String)
+   |       ^^^^^^^^
+Failed, one module loaded.
+*Lib Lib> :r
+[2 of 2] Compiling Main             ( C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs, interpreted )
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:61:7: error:
+    The type signature for myEither lacks an accompanying binding
+   |
+61 |       myEither :: MyEither (Int, String, Int) (String, Int, String)
+   |       ^^^^^^^^
+Failed, one module loaded.
+*Lib Lib> :r
+[2 of 2] Compiling Main             ( C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs, interpreted )
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:52:20: error:
+     Couldn't match expected type Gen (MyEither b a)
+                  with actual type MyEither b0 a0
+     In the expression: Left' a
+      In the expression: (1, Left' a)
+      In the first argument of frequency, namely
+        [(1, Left' a), (1, Right' b)]
+     Relevant bindings include
+        a :: a0
+          (bound at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:50:5)
+        arbitrary :: Gen (MyEither b a)
+          (bound at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:49:3)
+   |
+52 |     frequency [(1, Left' a), (1, Right' b)]
+   |                    ^^^^^^^
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:52:34: error:
+     Couldn't match expected type Gen (MyEither b a)
+                  with actual type MyEither b1 a1
+     In the expression: Right' b
+      In the expression: (1, Right' b)
+      In the first argument of frequency, namely
+        [(1, Left' a), (1, Right' b)]
+     Relevant bindings include
+        b :: b1
+          (bound at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:51:5)
+        arbitrary :: Gen (MyEither b a)
+          (bound at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:49:3)
+   |
+52 |     frequency [(1, Left' a), (1, Right' b)]
+   |                                  ^^^^^^^^
+Failed, one module loaded.
+*Lib Lib> :r
+[2 of 2] Compiling Main             ( C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs, interpreted )
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:52:5: error:
+     Couldn't match type [(Int, Gen a1)] -> Gen a1
+                     with Gen (MyEither b a)
+      Expected type: [(Integer, MyEither b0 a0)] -> Gen (MyEither b a)
+        Actual type: [(Integer, MyEither b0 a0)]
+                     -> [(Int, Gen a1)] -> Gen a1
+     The function return is applied to two arguments,
+      but its type ([(Int, Gen a1)] -> Gen a1)
+                    -> [(Integer, MyEither b0 a0)] -> [(Int, Gen a1)] -> Gen a1
+      has only three
+      In a stmt of a 'do' block:
+        return frequency [(1, Left' a), (1, Right' b)]
+      In the expression:
+        do a <- arbitrary
+           b <- arbitrary
+           return frequency [(1, Left' a), (1, Right' b)]
+     Relevant bindings include
+        arbitrary :: Gen (MyEither b a)
+          (bound at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:49:3)
+   |
+52 |     return frequency [(1, Left' a), (1, Right' b)]
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Failed, one module loaded.
+*Lib Lib> :r
+[2 of 2] Compiling Main             ( C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs, interpreted )
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:52:5: error:
+     Couldn't match type Gen a2 with MyEither b a
+      Expected type: Gen (MyEither b a)
+        Actual type: Gen (Gen a2)
+     In a stmt of a 'do' block:
+        return (frequency [(1, Left' a), (1, Right' b)])
+      In the expression:
+        do a <- arbitrary
+           b <- arbitrary
+           return (frequency [(1, Left' a), (1, Right' b)])
+      In an equation for arbitrary:
+          arbitrary
+            = do a <- arbitrary
+                 b <- arbitrary
+                 return (frequency [(1, Left' a), ....])
+     Relevant bindings include
+        arbitrary :: Gen (MyEither b a)
+          (bound at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:49:3)
+   |
+52 |     return (frequency [(1, Left' a), (1, Right' b)])
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:52:28: error:
+     Couldn't match expected type Gen a2
+                  with actual type MyEither b0 a0
+     In the expression: Left' a
+      In the expression: (1, Left' a)
+      In the first argument of frequency, namely
+        [(1, Left' a), (1, Right' b)]
+     Relevant bindings include
+        a :: a0
+          (bound at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:50:5)
+   |
+52 |     return (frequency [(1, Left' a), (1, Right' b)])
+   |                            ^^^^^^^
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:52:42: error:
+     Couldn't match expected type Gen a2
+                  with actual type MyEither b1 a1
+     In the expression: Right' b
+      In the expression: (1, Right' b)
+      In the first argument of frequency, namely
+        [(1, Left' a), (1, Right' b)]
+     Relevant bindings include
+        b :: b1
+          (bound at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:51:5)
+   |
+52 |     return (frequency [(1, Left' a), (1, Right' b)])
+   |                                          ^^^^^^^^
+Failed, one module loaded.
+*Lib Lib> :r
+[2 of 2] Compiling Main             ( C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs, interpreted )
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:52:5: error:
+     Couldn't match type Gen a2 with MyEither b a
+      Expected type: Gen (MyEither b a)
+        Actual type: Gen (Gen a2)
+     In a stmt of a 'do' block:
+        return (frequency [(1, Left' a) (1, Right' b)])
+      In the expression:
+        do a <- arbitrary
+           b <- arbitrary
+           return (frequency [(1, Left' a) (1, Right' b)])
+      In an equation for arbitrary:
+          arbitrary
+            = do a <- arbitrary
+                 b <- arbitrary
+                 return (frequency [(1, Left' a) ...])
+     Relevant bindings include
+        arbitrary :: Gen (MyEither b a)
+          (bound at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:49:3)
+   |
+52 |     return (frequency [(1, Left' a) (1, Right' b)])
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:52:24: error:
+     Couldn't match expected type (Integer, MyEither b1 a1)
+                                    -> (Int, Gen a2)
+                  with actual type (Integer, MyEither b0 a0)
+     The function (1, Left' a) is applied to one argument,
+      but its type (Integer, MyEither b0 a0) has none
+      In the expression: (1, Left' a) (1, Right' b)
+      In the first argument of frequency, namely
+        [(1, Left' a) (1, Right' b)]
+     Relevant bindings include
+        b :: b1
+          (bound at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:51:5)
+        a :: a0
+          (bound at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:50:5)
+   |
+52 |     return (frequency [(1, Left' a) (1, Right' b)])
+   |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+Failed, one module loaded.
+*Lib Lib> :r
+[2 of 2] Compiling Main             ( C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs, interpreted )
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:52:5: error:
+     Couldn't match type Gen a2 with MyEither b a
+      Expected type: Gen (MyEither b a)
+        Actual type: Gen (Gen a2)
+     In a stmt of a 'do' block:
+        return (frequency [(1, Left' a), (1, Right' b)])
+      In the expression:
+        do a <- arbitrary
+           b <- arbitrary
+           return (frequency [(1, Left' a), (1, Right' b)])
+      In an equation for arbitrary:
+          arbitrary
+            = do a <- arbitrary
+                 b <- arbitrary
+                 return (frequency [(1, Left' a), ....])
+     Relevant bindings include
+        arbitrary :: Gen (MyEither b a)
+          (bound at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:49:3)
+   |
+52 |     return (frequency [(1, Left' a), (1, Right' b)])
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:52:28: error:
+     Couldn't match expected type Gen a2
+                  with actual type MyEither b0 a0
+     In the expression: Left' a
+      In the expression: (1, Left' a)
+      In the first argument of frequency, namely
+        [(1, Left' a), (1, Right' b)]
+     Relevant bindings include
+        a :: a0
+          (bound at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:50:5)
+   |
+52 |     return (frequency [(1, Left' a), (1, Right' b)])
+   |                            ^^^^^^^
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:52:42: error:
+     Couldn't match expected type Gen a2
+                  with actual type MyEither b1 a1
+     In the expression: Right' b
+      In the expression: (1, Right' b)
+      In the first argument of frequency, namely
+        [(1, Left' a), (1, Right' b)]
+     Relevant bindings include
+        b :: b1
+          (bound at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:51:5)
+   |
+52 |     return (frequency [(1, Left' a), (1, Right' b)])
+   |                                          ^^^^^^^^
+Failed, one module loaded.
+*Lib Lib> :r
+[2 of 2] Compiling Main             ( C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs, interpreted )
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:52:58: error:
+    parse error on input )
+   |
+52 |     frequency [(1, return Left' a), (1, return Right' b)])
+   |                                                          ^
+Failed, one module loaded.
+*Lib Lib> :r
+[2 of 2] Compiling Main             ( C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs, interpreted )
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:52:20: error:
+     Couldn't match type a0 -> MyEither b0 a0
+                     with Gen (MyEither b a)
+      Expected type: t0 -> Gen (MyEither b a)
+        Actual type: t0 -> a0 -> MyEither b0 a0
+     The function return is applied to two arguments,
+      but its type (a0 -> MyEither b0 a0) -> t0 -> a0 -> MyEither b0 a0
+      has only three
+      In the expression: return Left' a
+      In the expression: (1, return Left' a)
+     Relevant bindings include
+        arbitrary :: Gen (MyEither b a)
+          (bound at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:49:3)
+   |
+52 |     frequency [(1, return Left' a), (1, return Right' b)]
+   |                    ^^^^^^^^^^^^^^
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:52:41: error:
+     Couldn't match type b1 -> MyEither b1 a1
+                     with Gen (MyEither b a)
+      Expected type: t1 -> Gen (MyEither b a)
+        Actual type: t1 -> b1 -> MyEither b1 a1
+     The function return is applied to two arguments,
+      but its type (b1 -> MyEither b1 a1) -> t1 -> b1 -> MyEither b1 a1
+      has only three
+      In the expression: return Right' b
+      In the expression: (1, return Right' b)
+     Relevant bindings include
+        arbitrary :: Gen (MyEither b a)
+          (bound at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:49:3)
+   |
+52 |     frequency [(1, return Left' a), (1, return Right' b)]
+   |                                         ^^^^^^^^^^^^^^^
+Failed, one module loaded.
+*Lib Lib> :r
+[2 of 2] Compiling Main             ( C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs, interpreted )
+Ok, two modules loaded.
+*Main Lib> main
+
+functor:
+  identity: +++ OK, passed 500 tests.
+  compose:  +++ OK, passed 500 tests.
+
+applicative:
+  identity:     +++ OK, passed 500 tests.
+  composition:  +++ OK, passed 500 tests.
+  homomorphism: +++ OK, passed 500 tests.
+  interchange:  +++ OK, passed 500 tests.
+  functor:      +++ OK, passed 500 tests.
+
+monad laws:
+  left  identity: +++ OK, passed 500 tests.
+  right identity: +++ OK, passed 500 tests.
+  associativity:  +++ OK, passed 500 tests.
+
+functor:
+  identity: +++ OK, passed 500 tests.
+  compose:  +++ OK, passed 500 tests.
+
+applicative:
+  identity:     +++ OK, passed 500 tests.
+  composition:  +++ OK, passed 500 tests.
+  homomorphism: +++ OK, passed 500 tests.
+  interchange:  +++ OK, passed 500 tests.
+  functor:      +++ OK, passed 500 tests.
+
+monad laws:
+  left  identity: +++ OK, passed 500 tests.
+  right identity: +++ OK, passed 500 tests.
+  associativity:  +++ OK, passed 500 tests.
+*Main Lib> :r
+[2 of 2] Compiling Main             ( C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs, interpreted )
+Ok, two modules loaded.
+*Main Lib> :r
+[2 of 2] Compiling Main             ( C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs, interpreted )
+Ok, two modules loaded.
+*Main Lib> :r
+[2 of 2] Compiling Main             ( C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs, interpreted )
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:76:10: error:
+    Malformed instance: Eq a -> EqProp (Identity a)
+   |
+76 | instance Eq a -> EqProp (Identity a) where
+   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Failed, one module loaded.
+*Lib Lib> :r
+[2 of 2] Compiling Main             ( C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs, interpreted )
+Ok, two modules loaded.
+*Main Lib> main
+
+functor:
+  identity: +++ OK, passed 500 tests.
+  compose:  +++ OK, passed 500 tests.
+
+applicative:
+  identity:     +++ OK, passed 500 tests.
+  composition:  +++ OK, passed 500 tests.
+  homomorphism: +++ OK, passed 500 tests.
+  interchange:  +++ OK, passed 500 tests.
+  functor:      +++ OK, passed 500 tests.
+
+monad laws:
+  left  identity: +++ OK, passed 500 tests.
+  right identity: +++ OK, passed 500 tests.
+  associativity:  +++ OK, passed 500 tests.
+
+functor:
+  identity: +++ OK, passed 500 tests.
+  compose:  +++ OK, passed 500 tests.
+
+applicative:
+  identity:     +++ OK, passed 500 tests.
+  composition:  +++ OK, passed 500 tests.
+  homomorphism: +++ OK, passed 500 tests.
+  interchange:  +++ OK, passed 500 tests.
+  functor:      +++ OK, passed 500 tests.
+
+monad laws:
+  left  identity: +++ OK, passed 500 tests.
+  right identity: +++ OK, passed 500 tests.
+  associativity:  +++ OK, passed 500 tests.
+
+functor:
+  identity: +++ OK, passed 500 tests.
+  compose:  +++ OK, passed 500 tests.
+
+applicative:
+  identity:     +++ OK, passed 500 tests.
+  composition:  +++ OK, passed 500 tests.
+  homomorphism: +++ OK, passed 500 tests.
+  interchange:  +++ OK, passed 500 tests.
+  functor:      +++ OK, passed 500 tests.
+
+monad laws:
+  left  identity: +++ OK, passed 500 tests.
+  right identity: +++ OK, passed 500 tests.
+  associativity:  +++ OK, passed 500 tests.
+*Main Lib> :r
+[2 of 2] Compiling Main             ( C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs, interpreted )
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:113:37: error:
+     Couldn't match expected type List (a -> List b)
+                  with actual type a -> List b
+     Probable cause: f is applied to too few arguments
+      In the first argument of (<*>), namely f
+      In the second argument of Cons, namely (f <*> as)
+      In the expression: Cons (f a) (f <*> as)
+     Relevant bindings include
+        f :: a -> List b
+          (bound at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:113:21)
+        as :: List a
+          (bound at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:113:17)
+        a :: a
+          (bound at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:113:15)
+        (>>=) :: List a -> (a -> List b) -> List b
+          (bound at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:112:3)
+    |
+113 |   (>>=) (Cons a as) f = Cons (f a) (f <*> as)
+    |                                     ^
+Failed, one module loaded.
+*Lib Lib> :i Monad
+class Applicative m => Monad (m :: * -> *) where
+  (>>=) :: m a -> (a -> m b) -> m b
+  (>>) :: m a -> m b -> m b
+  return :: a -> m a
+  fail :: String -> m a
+  {-# MINIMAL (>>=) #-}
+  	-- Defined in GHC.Base
+instance Monad (Either e) -- Defined in Data.Either
+instance Monad [] -- Defined in GHC.Base
+instance Monad Maybe -- Defined in GHC.Base
+instance Monad IO -- Defined in GHC.Base
+instance Monad ((->) r) -- Defined in GHC.Base
+instance Monoid a => Monad ((,) a) -- Defined in GHC.Base
+*Lib Lib> :r
+[2 of 2] Compiling Main             ( C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs, interpreted )
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:113:16: error:
+     Couldn't match expected type List b
+                  with actual type List (List (List b)) -> List (List (List b))
+     Probable cause: Cons is applied to too few arguments
+      In the expression: Cons (fmap f as)
+      In an equation for >>=: (>>=) as f = Cons (fmap f as)
+      In the instance declaration for Monad List
+     Relevant bindings include
+        f :: a -> List b
+          (bound at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:113:12)
+        (>>=) :: List a -> (a -> List b) -> List b
+          (bound at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:112:3)
+    |
+113 |   (>>=) as f = Cons (fmap f as)
+    |                ^^^^^^^^^^^^^^^^
+Failed, one module loaded.
+*Lib Lib> :r
+[2 of 2] Compiling Main             ( C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs, interpreted )
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:113:16: error:
+     Couldn't match type b with List b
+      b is a rigid type variable bound by
+        the type signature for:
+          (>>=) :: forall a b. List a -> (a -> List b) -> List b
+        at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:112:3-7
+      Expected type: List b
+        Actual type: List (List b)
+     In the expression: fmap f as
+      In an equation for >>=: (>>=) as f = fmap f as
+      In the instance declaration for Monad List
+     Relevant bindings include
+        f :: a -> List b
+          (bound at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:113:12)
+        (>>=) :: List a -> (a -> List b) -> List b
+          (bound at C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:112:3)
+    |
+113 |   (>>=) as f = fmap f as
+    |                ^^^^^^^^^
+Failed, one module loaded.
+*Lib Lib> :r
+[2 of 2] Compiling Main             ( C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs, interpreted )
+
+C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs:113:16: error:
+    Variable not in scope: join :: List (List b) -> List b
+    |
+113 |   (>>=) as f = join $ fmap f as
+    |                ^^^^
+Failed, one module loaded.
+*Lib Lib> :i join
+
+<interactive>:1:1: error: Not in scope: join
+*Lib Lib> import Control.Monad
+*Lib Lib Control.Monad> :i join
+join :: Monad m => m (m a) -> m a 	-- Defined in GHC.Base
+*Lib Lib Control.Monad> :r
+[2 of 2] Compiling Main             ( C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs, interpreted )
+Ok, two modules loaded.
+*Main Lib Control.Monad> :r
+[2 of 2] Compiling Main             ( C:\Projects\haskell-ch18\chapter-exercises\app\Main.hs, interpreted )
+Ok, two modules loaded.
+*Main Lib Control.Monad> main
+
+functor:
+  identity: +++ OK, passed 500 tests.
+  compose:  +++ OK, passed 500 tests.
+
+applicative:
+  identity:     +++ OK, passed 500 tests.
+  composition:  +++ OK, passed 500 tests.
+  homomorphism: +++ OK, passed 500 tests.
+  interchange:  +++ OK, passed 500 tests.
+  functor:      +++ OK, passed 500 tests.
+
+monad laws:
+  left  identity: +++ OK, passed 500 tests.
+  right identity: +++ OK, passed 500 tests.
+  associativity:  +++ OK, passed 500 tests.
+
+functor:
+  identity: +++ OK, passed 500 tests.
+  compose:  +++ OK, passed 500 tests.
+
+applicative:
+  identity:     +++ OK, passed 500 tests.
+  composition:  +++ OK, passed 500 tests.
+  homomorphism: +++ OK, passed 500 tests.
+  interchange:  +++ OK, passed 500 tests.
+  functor:      +++ OK, passed 500 tests.
+
+monad laws:
+  left  identity: +++ OK, passed 500 tests.
+  right identity: +++ OK, passed 500 tests.
+  associativity:  +++ OK, passed 500 tests.
+
+functor:
+  identity: +++ OK, passed 500 tests.
+  compose:  +++ OK, passed 500 tests.
+
+applicative:
+  identity:     +++ OK, passed 500 tests.
+  composition:  +++ OK, passed 500 tests.
+  homomorphism: +++ OK, passed 500 tests.
+  interchange:  +++ OK, passed 500 tests.
+  functor:      +++ OK, passed 500 tests.
+
+monad laws:
+  left  identity: +++ OK, passed 500 tests.
+  right identity: +++ OK, passed 500 tests.
+  associativity:  +++ OK, passed 500 tests.
+
+functor:
+  identity: +++ OK, passed 500 tests.
+  compose:  +++ OK, passed 500 tests.
+
+applicative:
+  identity:     +++ OK, passed 500 tests.
+  composition:  +++ OK, passed 500 tests.
+  homomorphism: +++ OK, passed 500 tests.
+  interchange:  +++ OK, passed 500 tests.
+  functor:      +++ OK, passed 500 tests.
+
+monad laws:
+  left  identity:   C-c C-c  C-c C-c
+c:\Projects\haskell-ch18\chapter-exercises>cd ..
+cd ..
+
+c:\Projects\haskell-ch18>ls
+ls
+'ls' is not recognized as an internal or external command,
+operable program or batch file.
+
+c:\Projects\haskell-ch18>stack repl
+stack repl
+
+Warning: No local targets specified, so ghci will not use any options from your package.yaml /
+         *.cabal files.
+         
+         Potential ways to resolve this:
+         * If you want to use the package.yaml / *.cabal package in the current directory, use
+           stack init to create a new stack.yaml.
+         * Add to the 'packages' field of C:\sr\global-project\stack.yaml
+         
+Configuring GHCi with the following packages: 
+GHCi, version 8.0.2: http://www.haskell.org/ghc/  :? for help
+Loaded GHCi configuration from C:\Users\Jenkins\AppData\Local\Temp\ghci1236\ghci-script
+Prelude> :l ChapterExercises2.hs
+[1 of 1] Compiling ChapterExercises2 ( ChapterExercises2.hs, interpreted )
+Ok, modules loaded: ChapterExercises2.
+*ChapterExercises2> j [[1, 2], [], [3]]
+[1,2,3]
+*ChapterExercises2> j Nothing
+Nothing
+*ChapterExercises2> :r
+[1 of 1] Compiling ChapterExercises2 ( ChapterExercises2.hs, interpreted )
+Ok, modules loaded: ChapterExercises2.
+*ChapterExercises2> :t Monad
+
+<interactive>:1:1: error: Data constructor not in scope: Monad
+*ChapterExercises2> :i Monad
+class Applicative m => Monad (m :: * -> *) where
+  (>>=) :: m a -> (a -> m b) -> m b
+  (>>) :: m a -> m b -> m b
+  return :: a -> m a
+  fail :: String -> m a
+  {-# MINIMAL (>>=) #-}
+  	-- Defined in GHC.Base
+instance Monad (Either e) -- Defined in Data.Either
+instance Monad [] -- Defined in GHC.Base
+instance Monad Maybe -- Defined in GHC.Base
+instance Monad IO -- Defined in GHC.Base
+instance Monad ((->) r) -- Defined in GHC.Base
+instance Monoid a => Monad ((,) a) -- Defined in GHC.Base
+*ChapterExercises2> :r
+[1 of 1] Compiling ChapterExercises2 ( ChapterExercises2.hs, interpreted )
+
+ChapterExercises2.hs:12:22: error:
+     Couldn't match type m with (->) b
+      m is a rigid type variable bound by
+        the type signature for:
+          l2 :: forall (m :: * -> *) a b c.
+                Monad m =>
+                (a -> b -> c) -> m a -> m b -> m c
+        at ChapterExercises2.hs:11:7
+      Expected type: b -> m c
+        Actual type: m (b -> c)
+     In the second argument of (>>=), namely (fmap f ma)
+      In the expression: mb >>= (fmap f ma)
+      In an equation for l2: l2 f ma mb = mb >>= (fmap f ma)
+     Relevant bindings include
+        mb :: m b (bound at ChapterExercises2.hs:12:9)
+        ma :: m a (bound at ChapterExercises2.hs:12:6)
+        f :: a -> b -> c (bound at ChapterExercises2.hs:12:4)
+        l2 :: (a -> b -> c) -> m a -> m b -> m c
+          (bound at ChapterExercises2.hs:12:1)
+Failed, modules loaded: none.
+Prelude> :i Monad
+class Applicative m => Monad (m :: * -> *) where
+  (>>=) :: m a -> (a -> m b) -> m b
+  (>>) :: m a -> m b -> m b
+  return :: a -> m a
+  fail :: String -> m a
+  {-# MINIMAL (>>=) #-}
+  	-- Defined in GHC.Base
+instance Monad (Either e) -- Defined in Data.Either
+instance Monad [] -- Defined in GHC.Base
+instance Monad Maybe -- Defined in GHC.Base
+instance Monad IO -- Defined in GHC.Base
+instance Monad ((->) r) -- Defined in GHC.Base
+instance Monoid a => Monad ((,) a) -- Defined in GHC.Base
+Prelude> :r
+[1 of 1] Compiling ChapterExercises2 ( ChapterExercises2.hs, interpreted )
+Ok, modules loaded: ChapterExercises2.
+*ChapterExercises2> :r
+[1 of 1] Compiling ChapterExercises2 ( ChapterExercises2.hs, interpreted )
+Ok, modules loaded: ChapterExercises2.
+*ChapterExercises2> :t join
+join :: Monad m => m (m a) -> m a
+*ChapterExercises2> :r
+[1 of 1] Compiling ChapterExercises2 ( ChapterExercises2.hs, interpreted )
+
+ChapterExercises2.hs:19:1: error: Parse error in pattern: meh
+Failed, modules loaded: none.
+Prelude> :r
+[1 of 1] Compiling ChapterExercises2 ( ChapterExercises2.hs, interpreted )
+
+ChapterExercises2.hs:19:23: error:
+     Couldn't match expected type [m b]
+                  with actual type (a -> m0 b0) -> m0 [b0]
+     Probable cause: meh is applied to too few arguments
+      In the second argument of (:), namely (meh as)
+      In the expression: (f a) : (meh as)
+      In an equation for meh: meh (a : as) f = (f a) : (meh as)
+     Relevant bindings include
+        f :: a -> m b (bound at ChapterExercises2.hs:19:12)
+        as :: [a] (bound at ChapterExercises2.hs:19:8)
+        a :: a (bound at ChapterExercises2.hs:19:6)
+        meh :: [a] -> (a -> m b) -> m [b]
+          (bound at ChapterExercises2.hs:18:1)
+Failed, modules loaded: none.
+Prelude> :r
+[1 of 1] Compiling ChapterExercises2 ( ChapterExercises2.hs, interpreted )
+
+ChapterExercises2.hs:18:12: error:
+     Couldn't match type m with []
+      m is a rigid type variable bound by
+        the type signature for:
+          meh :: forall (m :: * -> *) a b.
+                 Monad m =>
+                 [a] -> (a -> m b) -> m [b]
+        at ChapterExercises2.hs:17:8
+      Expected type: m [b]
+        Actual type: [[b]]
+     In the expression: []
+      In an equation for meh: meh [] f = []
+     Relevant bindings include
+        f :: a -> m b (bound at ChapterExercises2.hs:18:8)
+        meh :: [a] -> (a -> m b) -> m [b]
+          (bound at ChapterExercises2.hs:18:1)
+Failed, modules loaded: none.
+Prelude> :r
+[1 of 1] Compiling ChapterExercises2 ( ChapterExercises2.hs, interpreted )
+
+ChapterExercises2.hs:19:16: error:
+     Couldn't match type m with (->) (m [b])
+      m is a rigid type variable bound by
+        the type signature for:
+          meh :: forall (m :: * -> *) a b.
+                 Monad m =>
+                 [a] -> (a -> m b) -> m [b]
+        at ChapterExercises2.hs:17:8
+      Expected type: m [b] -> m [b]
+        Actual type: m (m [b])
+     The function join is applied to two arguments,
+      but its type m (m (m [b])) -> m (m [b]) has only one
+      In the expression: join (f a) (meh as f)
+      In an equation for meh: meh (a : as) f = join (f a) (meh as f)
+     Relevant bindings include
+        f :: a -> m b (bound at ChapterExercises2.hs:19:12)
+        meh :: [a] -> (a -> m b) -> m [b]
+          (bound at ChapterExercises2.hs:18:1)
+
+ChapterExercises2.hs:19:22: error:
+     Couldn't match type b with m (m [b])
+      b is a rigid type variable bound by
+        the type signature for:
+          meh :: forall (m :: * -> *) a b.
+                 Monad m =>
+                 [a] -> (a -> m b) -> m [b]
+        at ChapterExercises2.hs:17:8
+      Expected type: m (m (m [b]))
+        Actual type: m b
+     In the first argument of join, namely (f a)
+      In the expression: join (f a) (meh as f)
+      In an equation for meh: meh (a : as) f = join (f a) (meh as f)
+     Relevant bindings include
+        f :: a -> m b (bound at ChapterExercises2.hs:19:12)
+        meh :: [a] -> (a -> m b) -> m [b]
+          (bound at ChapterExercises2.hs:18:1)
+Failed, modules loaded: none.
+Prelude> :r
+[1 of 1] Compiling ChapterExercises2 ( ChapterExercises2.hs, interpreted )
+
+ChapterExercises2.hs:18:12: error:
+     Couldn't match type m with []
+      m is a rigid type variable bound by
+        the type signature for:
+          meh :: forall (m :: * -> *) a b.
+                 Monad m =>
+                 [a] -> (a -> m b) -> m [b]
+        at ChapterExercises2.hs:17:8
+      Expected type: m [b]
+        Actual type: [[b]]
+     In the expression: []
+      In an equation for meh: meh [] f = []
+     Relevant bindings include
+        f :: a -> m b (bound at ChapterExercises2.hs:18:8)
+        meh :: [a] -> (a -> m b) -> m [b]
+          (bound at ChapterExercises2.hs:18:1)
+
+ChapterExercises2.hs:19:16: error:
+     Couldn't match type b with m [b]
+      b is a rigid type variable bound by
+        the type signature for:
+          meh :: forall (m :: * -> *) a b.
+                 Monad m =>
+                 [a] -> (a -> m b) -> m [b]
+        at ChapterExercises2.hs:17:8
+      Expected type: m [b] -> m [b]
+        Actual type: m b
+     The function join is applied to two arguments,
+      but its type m (m b) -> m b has only one
+      In the expression: join (pure (f a)) (meh as f)
+      In an equation for meh:
+          meh (a : as) f = join (pure (f a)) (meh as f)
+     Relevant bindings include
+        f :: a -> m b (bound at ChapterExercises2.hs:19:12)
+        meh :: [a] -> (a -> m b) -> m [b]
+          (bound at ChapterExercises2.hs:18:1)
+Failed, modules loaded: none.
+Prelude> :r
+[1 of 1] Compiling ChapterExercises2 ( ChapterExercises2.hs, interpreted )
+
+ChapterExercises2.hs:18:12: error:
+     Couldn't match type m with []
+      m is a rigid type variable bound by
+        the type signature for:
+          meh :: forall (m :: * -> *) a b.
+                 Monad m =>
+                 [a] -> (a -> m b) -> m [b]
+        at ChapterExercises2.hs:17:8
+      Expected type: m [b]
+        Actual type: [[b]]
+     In the expression: []
+      In an equation for meh: meh [] f = []
+     Relevant bindings include
+        f :: a -> m b (bound at ChapterExercises2.hs:18:8)
+        meh :: [a] -> (a -> m b) -> m [b]
+          (bound at ChapterExercises2.hs:18:1)
+
+ChapterExercises2.hs:19:17: error:
+     Couldn't match type b with [b]
+      b is a rigid type variable bound by
+        the type signature for:
+          meh :: forall (m :: * -> *) a b.
+                 Monad m =>
+                 [a] -> (a -> m b) -> m [b]
+        at ChapterExercises2.hs:17:8
+      Expected type: m ([b] -> [b])
+        Actual type: m (m b)
+     In the first argument of (<*>), namely (pure (f a))
+      In the expression: (pure (f a)) <*> (meh as f)
+      In an equation for meh:
+          meh (a : as) f = (pure (f a)) <*> (meh as f)
+     Relevant bindings include
+        f :: a -> m b (bound at ChapterExercises2.hs:19:12)
+        meh :: [a] -> (a -> m b) -> m [b]
+          (bound at ChapterExercises2.hs:18:1)
+Failed, modules loaded: none.
+Prelude> :r
+[1 of 1] Compiling ChapterExercises2 ( ChapterExercises2.hs, interpreted )
+
+ChapterExercises2.hs:18:12: error:
+     Couldn't match type m with []
+      m is a rigid type variable bound by
+        the type signature for:
+          meh :: forall (m :: * -> *) a b.
+                 Monad m =>
+                 [a] -> (a -> m b) -> m [b]
+        at ChapterExercises2.hs:17:8
+      Expected type: m [b]
+        Actual type: [[b]]
+     In the expression: []
+      In an equation for meh: meh [] f = []
+     Relevant bindings include
+        f :: a -> m b (bound at ChapterExercises2.hs:18:8)
+        meh :: [a] -> (a -> m b) -> m [b]
+          (bound at ChapterExercises2.hs:18:1)
+Failed, modules loaded: none.
+Prelude> :r
+[1 of 1] Compiling ChapterExercises2 ( ChapterExercises2.hs, interpreted )
+
+ChapterExercises2.hs:18:12: error:
+     Couldn't match type m with []
+      m is a rigid type variable bound by
+        the type signature for:
+          meh :: forall (m :: * -> *) a b.
+                 Monad m =>
+                 [a] -> (a -> m b) -> m [b]
+        at ChapterExercises2.hs:17:8
+      Expected type: m [b]
+        Actual type: [[b]]
+     In the expression: []
+      In an equation for meh: meh [] f = []
+     Relevant bindings include
+        f :: a -> m b (bound at ChapterExercises2.hs:18:8)
+        meh :: [a] -> (a -> m b) -> m [b]
+          (bound at ChapterExercises2.hs:18:1)
+Failed, modules loaded: none.
+Prelude> :r
+[1 of 1] Compiling ChapterExercises2 ( ChapterExercises2.hs, interpreted )
+
+ChapterExercises2.hs:18:12: error:
+     Couldn't match type m with []
+      m is a rigid type variable bound by
+        the type signature for:
+          meh :: forall (m :: * -> *) a b.
+                 Monad m =>
+                 [a] -> (a -> m b) -> m [b]
+        at ChapterExercises2.hs:17:8
+      Expected type: m [b]
+        Actual type: [[b]]
+     In the expression: []
+      In an equation for meh: meh [] f = []
+     Relevant bindings include
+        f :: a -> m b (bound at ChapterExercises2.hs:18:8)
+        meh :: [a] -> (a -> m b) -> m [b]
+          (bound at ChapterExercises2.hs:18:1)
+Failed, modules loaded: none.
+Prelude> :r
+[1 of 1] Compiling ChapterExercises2 ( ChapterExercises2.hs, interpreted )
+
+ChapterExercises2.hs:18:12: error:
+     Couldn't match type m with []
+      m is a rigid type variable bound by
+        the type signature for:
+          meh :: forall (m :: * -> *) a b.
+                 Monad m =>
+                 [a] -> (a -> m b) -> m [b]
+        at ChapterExercises2.hs:17:8
+      Expected type: m [b]
+        Actual type: [[b]]
+     In the expression: []
+      In an equation for meh: meh [] _ = []
+     Relevant bindings include
+        meh :: [a] -> (a -> m b) -> m [b]
+          (bound at ChapterExercises2.hs:18:1)
+Failed, modules loaded: none.
+Prelude> :r
+[1 of 1] Compiling ChapterExercises2 ( ChapterExercises2.hs, interpreted )
+
+ChapterExercises2.hs:19:34: error:
+     Couldn't match type m with []
+      m is a rigid type variable bound by
+        the type signature for:
+          meh :: forall (m :: * -> *) a b.
+                 Monad m =>
+                 [a] -> (a -> m b) -> m [b]
+        at ChapterExercises2.hs:17:8
+      Expected type: [m b]
+        Actual type: m [b]
+     In the second argument of (:), namely (meh as f)
+      In the second argument of ($), namely (f a) : (meh as f)
+      In the expression: sequence $ (f a) : (meh as f)
+     Relevant bindings include
+        f :: a -> m b (bound at ChapterExercises2.hs:19:12)
+        meh :: [a] -> (a -> m b) -> m [b]
+          (bound at ChapterExercises2.hs:18:1)
+Failed, modules loaded: none.
+Prelude> :r
+[1 of 1] Compiling ChapterExercises2 ( ChapterExercises2.hs, interpreted )
+
+ChapterExercises2.hs:18:12: error:
+     Couldn't match type m with []
+      m is a rigid type variable bound by
+        the type signature for:
+          meh :: forall (m :: * -> *) a b.
+                 Monad m =>
+                 [a] -> (a -> m b) -> m [b]
+        at ChapterExercises2.hs:17:8
+      Expected type: m [b]
+        Actual type: [[b]]
+     In the expression: []
+      In an equation for meh: meh [] _ = []
+     Relevant bindings include
+        meh :: [a] -> (a -> m b) -> m [b]
+          (bound at ChapterExercises2.hs:18:1)
+Failed, modules loaded: none.
+Prelude> :r
+[1 of 1] Compiling ChapterExercises2 ( ChapterExercises2.hs, interpreted )
+
+ChapterExercises2.hs:18:12: error:
+    Variable not in scope: m :: [t0] -> m [b]
+
+ChapterExercises2.hs:19:34: error:
+     Couldn't match type m with []
+      m is a rigid type variable bound by
+        the type signature for:
+          meh :: forall (m :: * -> *) a b.
+                 Monad m =>
+                 [a] -> (a -> m b) -> m [b]
+        at ChapterExercises2.hs:17:8
+      Expected type: [m b]
+        Actual type: m [b]
+     In the second argument of (:), namely (meh as f)
+      In the second argument of ($), namely (f a) : (meh as f)
+      In the expression: sequence $ (f a) : (meh as f)
+     Relevant bindings include
+        f :: a -> m b (bound at ChapterExercises2.hs:19:12)
+        meh :: [a] -> (a -> m b) -> m [b]
+          (bound at ChapterExercises2.hs:18:1)
+Failed, modules loaded: none.
+Prelude> :r
+[1 of 1] Compiling ChapterExercises2 ( ChapterExercises2.hs, interpreted )
+
+ChapterExercises2.hs:19:34: error:
+     Couldn't match type m with []
+      m is a rigid type variable bound by
+        the type signature for:
+          meh :: forall (m :: * -> *) a b.
+                 Monad m =>
+                 [a] -> (a -> m b) -> m [b]
+        at ChapterExercises2.hs:17:8
+      Expected type: [m b]
+        Actual type: m [b]
+     In the second argument of (:), namely (meh as f)
+      In the second argument of ($), namely (f a) : (meh as f)
+      In the expression: sequence $ (f a) : (meh as f)
+     Relevant bindings include
+        f :: a -> m b (bound at ChapterExercises2.hs:19:12)
+        meh :: [a] -> (a -> m b) -> m [b]
+          (bound at ChapterExercises2.hs:18:1)
+Failed, modules loaded: none.
+Prelude> :r
+[1 of 1] Compiling ChapterExercises2 ( ChapterExercises2.hs, interpreted )
+
+ChapterExercises2.hs:19:23: error:
+     Couldn't match type m with []
+      m is a rigid type variable bound by
+        the type signature for:
+          meh :: forall (m :: * -> *) a b.
+                 Monad m =>
+                 [a] -> (a -> m b) -> m [b]
+        at ChapterExercises2.hs:17:8
+      Expected type: [m b]
+        Actual type: m [b]
+     In the second argument of (:), namely (meh as f)
+      In the expression: (f a) : (meh as f)
+      In an equation for meh: meh (a : as) f = (f a) : (meh as f)
+     Relevant bindings include
+        f :: a -> m b (bound at ChapterExercises2.hs:19:12)
+        meh :: [a] -> (a -> m b) -> m [b]
+          (bound at ChapterExercises2.hs:18:1)
+Failed, modules loaded: none.
+Prelude> :r
+[1 of 1] Compiling ChapterExercises2 ( ChapterExercises2.hs, interpreted )
+Ok, modules loaded: ChapterExercises2.
+*ChapterExercises2> :r
+[1 of 1] Compiling ChapterExercises2 ( ChapterExercises2.hs, interpreted )
+
+ChapterExercises2.hs:19:23: error:
+     Couldn't match type m with []
+      m is a rigid type variable bound by
+        the type signature for:
+          meh :: forall (m :: * -> *) a b.
+                 Monad m =>
+                 [a] -> (a -> m b) -> m [b]
+        at ChapterExercises2.hs:17:8
+      Expected type: [m b]
+        Actual type: m [b]
+     In the second argument of (:), namely (meh as f)
+      In the expression: (f a) : (meh as f)
+      In an equation for meh: meh (a : as) f = (f a) : (meh as f)
+     Relevant bindings include
+        f :: a -> m b (bound at ChapterExercises2.hs:19:12)
+        meh :: [a] -> (a -> m b) -> m [b]
+          (bound at ChapterExercises2.hs:18:1)
+Failed, modules loaded: none.
+Prelude> :r
+[1 of 1] Compiling ChapterExercises2 ( ChapterExercises2.hs, interpreted )
+
+ChapterExercises2.hs:19:23: error:
+     Couldn't match type m with []
+      m is a rigid type variable bound by
+        the type signature for:
+          meh :: forall (m :: * -> *) a b.
+                 Monad m =>
+                 [a] -> (a -> m b) -> m [b]
+        at ChapterExercises2.hs:17:8
+      Expected type: [m b]
+        Actual type: m [b]
+     In the second argument of (:), namely (fmap id (meh as f))
+      In the expression: (f a) : (fmap id (meh as f))
+      In an equation for meh:
+          meh (a : as) f = (f a) : (fmap id (meh as f))
+     Relevant bindings include
+        f :: a -> m b (bound at ChapterExercises2.hs:19:12)
+        meh :: [a] -> (a -> m b) -> m [b]
+          (bound at ChapterExercises2.hs:18:1)
+Failed, modules loaded: none.
+Prelude> :i Monad
+class Applicative m => Monad (m :: * -> *) where
+  (>>=) :: m a -> (a -> m b) -> m b
+  (>>) :: m a -> m b -> m b
+  return :: a -> m a
+  fail :: String -> m a
+  {-# MINIMAL (>>=) #-}
+  	-- Defined in GHC.Base
+instance Monad (Either e) -- Defined in Data.Either
+instance Monad [] -- Defined in GHC.Base
+instance Monad Maybe -- Defined in GHC.Base
+instance Monad IO -- Defined in GHC.Base
+instance Monad ((->) r) -- Defined in GHC.Base
+instance Monoid a => Monad ((,) a) -- Defined in GHC.Base
+Prelude> :i Functor
+class Functor (f :: * -> *) where
+  fmap :: (a -> b) -> f a -> f b
+  (<$) :: a -> f b -> f a
+  {-# MINIMAL fmap #-}
+  	-- Defined in GHC.Base
+instance Functor (Either a) -- Defined in Data.Either
+instance Functor [] -- Defined in GHC.Base
+instance Functor Maybe -- Defined in GHC.Base
+instance Functor IO -- Defined in GHC.Base
+instance Functor ((->) r) -- Defined in GHC.Base
+instance Functor ((,) a) -- Defined in GHC.Base
+Prelude> :i Applicative
+class Functor f => Applicative (f :: * -> *) where
+  pure :: a -> f a
+  (<*>) :: f (a -> b) -> f a -> f b
+  (*>) :: f a -> f b -> f b
+  (<*) :: f a -> f b -> f a
+  {-# MINIMAL pure, (<*>) #-}
+  	-- Defined in GHC.Base
+instance Applicative (Either e) -- Defined in Data.Either
+instance Applicative [] -- Defined in GHC.Base
+instance Applicative Maybe -- Defined in GHC.Base
+instance Applicative IO -- Defined in GHC.Base
+instance Applicative ((->) a) -- Defined in GHC.Base
+instance Monoid a => Applicative ((,) a) -- Defined in GHC.Base
+Prelude> :r
+[1 of 1] Compiling ChapterExercises2 ( ChapterExercises2.hs, interpreted )
+
+ChapterExercises2.hs:19:16: error:
+     Couldn't match type b with m [b]
+      b is a rigid type variable bound by
+        the type signature for:
+          meh :: forall (m :: * -> *) a b.
+                 Monad m =>
+                 [a] -> (a -> m b) -> m [b]
+        at ChapterExercises2.hs:17:8
+      Expected type: m [b] -> m [b]
+        Actual type: m b
+     The function f is applied to two arguments,
+      but its type a -> m b has only one
+      In the expression: (f a) (meh as f)
+      In an equation for meh: meh (a : as) f = (f a) (meh as f)
+     Relevant bindings include
+        f :: a -> m b (bound at ChapterExercises2.hs:19:12)
+        meh :: [a] -> (a -> m b) -> m [b]
+          (bound at ChapterExercises2.hs:18:1)
+Failed, modules loaded: none.
+Prelude> :t concat
+concat :: Foldable t => t [a] -> [a]
+Prelude> 
+Prelude> :t join
+
+<interactive>:1:1: error: Variable not in scope: join
+Prelude> import Control.Monad
+Prelude Control.Monad> :t join
+join :: Monad m => m (m a) -> m a
+Prelude Control.Monad> :r
+[1 of 1] Compiling ChapterExercises2 ( ChapterExercises2.hs, interpreted )
+
+ChapterExercises2.hs:19:45: error:
+     Couldn't match type b with [b]
+      b is a rigid type variable bound by
+        the type signature for:
+          meh :: forall (m :: * -> *) a b.
+                 Monad m =>
+                 [a] -> (a -> m b) -> m [b]
+        at ChapterExercises2.hs:17:8
+      Expected type: [m [b]]
+        Actual type: m [b]
+     In the second argument of (:), namely (meh as f)
+      In the second argument of ($), namely
+        (replicateM 1 (f a)) : (meh as f)
+      In the expression: join $ (replicateM 1 (f a)) : (meh as f)
+     Relevant bindings include
+        f :: a -> m b (bound at ChapterExercises2.hs:19:12)
+        meh :: [a] -> (a -> m b) -> m [b]
+          (bound at ChapterExercises2.hs:18:1)
+Failed, modules loaded: none.
+Prelude Control.Monad> :r
+[1 of 1] Compiling ChapterExercises2 ( ChapterExercises2.hs, interpreted )
+
+ChapterExercises2.hs:19:23: error:
+     Couldn't match type m with []
+      m is a rigid type variable bound by
+        the type signature for:
+          meh :: forall (m :: * -> *) a b.
+                 Monad m =>
+                 [a] -> (a -> m b) -> m [b]
+        at ChapterExercises2.hs:17:8
+      Expected type: [[[b]]]
+        Actual type: [m [b]]
+     In the second argument of ($), namely
+        (replicateM 1 (f a)) : [(meh as f)]
+      In the expression: join $ (replicateM 1 (f a)) : [(meh as f)]
+      In an equation for meh:
+          meh (a : as) f = join $ (replicateM 1 (f a)) : [(meh as f)]
+     Relevant bindings include
+        f :: a -> m b (bound at ChapterExercises2.hs:19:12)
+        meh :: [a] -> (a -> m b) -> m [b]
+          (bound at ChapterExercises2.hs:18:1)
+Failed, modules loaded: none.
+Prelude Control.Monad> :t Applicative
+
+<interactive>:1:1: error:
+    Data constructor not in scope: Applicative
+Prelude Control.Monad> :i Applicative
+class Functor f => Applicative (f :: * -> *) where
+  pure :: a -> f a
+  (<*>) :: f (a -> b) -> f a -> f b
+  (*>) :: f a -> f b -> f b
+  (<*) :: f a -> f b -> f a
+  {-# MINIMAL pure, (<*>) #-}
+  	-- Defined in GHC.Base
+instance Applicative (Either e) -- Defined in Data.Either
+instance Applicative [] -- Defined in GHC.Base
+instance Applicative Maybe -- Defined in GHC.Base
+instance Applicative IO -- Defined in GHC.Base
+instance Applicative ((->) a) -- Defined in GHC.Base
+instance Monoid a => Applicative ((,) a) -- Defined in GHC.Base
+Prelude Control.Monad> :t concat
+concat :: Foldable t => t [a] -> [a]
+Prelude Control.Monad> :r
+[1 of 1] Compiling ChapterExercises2 ( ChapterExercises2.hs, interpreted )
+
+ChapterExercises2.hs:19:37: error:
+     Variable not in scope: (<>) :: m [b] -> m [b] -> m [b]
+     Perhaps you meant one of these:
+        <*> (imported from Prelude), *> (imported from Prelude),
+        >> (imported from Control.Monad)
+Failed, modules loaded: none.
+Prelude Control.Monad> :i Monoid
+class Monoid a where
+  mempty :: a
+  mappend :: a -> a -> a
+  mconcat :: [a] -> a
+  {-# MINIMAL mempty, mappend #-}
+  	-- Defined in GHC.Base
+instance Monoid [a] -- Defined in GHC.Base
+instance Monoid Ordering -- Defined in GHC.Base
+instance Monoid a => Monoid (Maybe a) -- Defined in GHC.Base
+instance Monoid a => Monoid (IO a) -- Defined in GHC.Base
+instance Monoid b => Monoid (a -> b) -- Defined in GHC.Base
+instance (Monoid a, Monoid b, Monoid c, Monoid d, Monoid e) =>
+         Monoid (a, b, c, d, e)
+  -- Defined in GHC.Base
+instance (Monoid a, Monoid b, Monoid c, Monoid d) =>
+         Monoid (a, b, c, d)
+  -- Defined in GHC.Base
+instance (Monoid a, Monoid b, Monoid c) => Monoid (a, b, c)
+  -- Defined in GHC.Base
+instance (Monoid a, Monoid b) => Monoid (a, b)
+  -- Defined in GHC.Base
+instance Monoid () -- Defined in GHC.Base
+Prelude Control.Monad> :r
+[1 of 1] Compiling ChapterExercises2 ( ChapterExercises2.hs, interpreted )
+
+ChapterExercises2.hs:19:16: error:
+     Could not deduce (Monoid (m [b])) arising from a use of mappend
+      from the context: Monad m
+        bound by the type signature for:
+                   meh :: Monad m => [a] -> (a -> m b) -> m [b]
+        at ChapterExercises2.hs:17:1-44
+     In the expression: mappend (replicateM 1 (f a)) (meh as f)
+      In an equation for meh:
+          meh (a : as) f = mappend (replicateM 1 (f a)) (meh as f)
+Failed, modules loaded: none.
+Prelude Control.Monad> 
