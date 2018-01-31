@@ -112,7 +112,7 @@ instance Applicative List where
 instance Monad List where
   return = pure
   (>>=) Nil _ = Nil
-  (>>=) as f = join $ fmap f as
+  (>>=) (Cons a as) f = f a `append` (>>=) as f
 
 instance Arbitrary a => Arbitrary (List a) where
   arbitrary = do
